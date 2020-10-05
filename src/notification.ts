@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { getNotification } from "./keystore";
 import { JsonRpcRequest, Notification } from "./types";
-import { parseWakuPublish } from "./utils";
+import { parseBridgePublish } from "./utils";
 
 export const pushNotification = async (topic: string) => {
   const notifications = await getNotification(topic);
@@ -18,8 +18,8 @@ export const notificationMiddleware = async (
   request: JsonRpcRequest,
   cb?: any
 ): Promise<void> => {
-  if (request.method === "waku_publish") {
-    const params = parseWakuPublish(request);
+  if (request.method === "bridge_publish") {
+    const params = parseBridgePublish(request);
     await pushNotification(params.topic);
   }
   cb(request);

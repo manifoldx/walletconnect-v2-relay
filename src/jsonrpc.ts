@@ -17,9 +17,9 @@ import {
   formatJsonRpcResult,
   getError,
   isJsonRpcRequest,
-  isWakuPublish,
-  parseWakuPublish,
-  parseWakuSubscribe,
+  isBridgePublish,
+  parseBridgePublish,
+  parseBridgeSubscribe,
   payloadId,
 } from "./utils";
 
@@ -35,7 +35,7 @@ async function socketSend(
   } else {
     if (isJsonRpcRequest(request)) {
       const params = request.params;
-      if (isWakuPublish(params)) {
+      if (isBridgePublish(params)) {
         await setPub(params);
       }
     }
@@ -47,7 +47,7 @@ async function handleSubscribe(
   request: JsonRpcRequest,
   logger: Logger
 ) {
-  const params = parseWakuSubscribe(request);
+  const params = parseBridgeSubscribe(request);
   const topic = params.topic;
 
   const subscriber = { topic, socket };
@@ -61,7 +61,7 @@ async function handleSubscribe(
       pending.map((payload: string) =>
         socketSend(
           socket,
-          formatJsonRpcRequest("waku_subscription", { topic, payload }),
+          formatJsonRpcRequest("bridge_subscription", { topic, payload }),
           logger
         )
       )
@@ -74,7 +74,7 @@ async function handlePublish(
   request: JsonRpcRequest,
   logger: Logger
 ) {
-  const params = parseWakuPublish(request);
+  const params = parseBridgePublish(request);
   const subscribers = await getSub(params.topic);
 
   // TODO: assume all payloads are non-silent for now
@@ -135,10 +135,10 @@ async function jsonRpcServer(
     }
 
     switch (request.method) {
-      case "waku_subscribe":
+      case "bridge_subscribe":
         await handleSubscribe(socket, request, logger);
         break;
-      case "waku_publish":
+      case "bridge_publish":
         await handlePublish(socket, request, logger);
         break;
       default:

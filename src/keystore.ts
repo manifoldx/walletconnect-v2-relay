@@ -1,5 +1,5 @@
 import redis from "redis";
-import { Subscription, Notification, WakuPublishParams } from "./types";
+import { Subscription, Notification, BridgePublishParams } from "./types";
 import bluebird from "bluebird";
 
 import config from "./config";
@@ -18,7 +18,7 @@ export const getSub = (topic: string) =>
       subscriber.topic === topic && subscriber.socket.readyState === 1
   );
 
-export const setPub = async (params: WakuPublishParams) => {
+export const setPub = async (params: BridgePublishParams) => {
   await redisClient.lpushAsync(
     `request:${params.topic}`,
     JSON.stringify(params.payload)

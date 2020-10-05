@@ -1,3 +1,3 @@
 export * from "./jsonrpc";
 export * from "./socket";
-export * from "./waku";
+export * from "./bridge";

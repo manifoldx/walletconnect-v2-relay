@@ -2,8 +2,8 @@ import {
   JsonRpcError,
   JsonRpcRequest,
   JsonRpcResult,
-  WakuPublishParams,
-  WakuSubscriptionParams,
+  BridgePublishParams,
+  BridgeSubscribeParams,
 } from "../types";
 
 export function isJsonRpcRequest(
@@ -24,6 +24,10 @@ export function isJsonRpcError(
   return "error" in payload;
 }
 
-export function isWakuPublish(params: any): params is WakuPublishParams {
+export function isBridgePublish(params: any): params is BridgePublishParams {
   return "payload" in params && "topic" in params && "ttl" in params;
+}
+
+export function isBridgeSubscribe(params: any): params is BridgeSubscribeParams {
+  return "topic" in params && "ttl" in params;
 }

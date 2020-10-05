@@ -35,8 +35,8 @@ docker swarm init --advertise-addr `curl -s ipecho.net/plain`
 Run the following command and fill in the prompts:
 
 ```bash
-git clone https://github.com/WalletConnect/node-walletconnect-bridge
-cd node-walletconnect-bridge
+git clone https://github.com/WalletConnect/walletconnect-v2-bridge
+cd walletconnect-v2-bridge
 make deploy
 Bridge URL domain: <your bridge domain>
 Email for SSL certificate (default noreply@gmail.com):

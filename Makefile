@@ -1,6 +1,6 @@
 ### Deploy configs
 BRANCH=$(shell git for-each-ref --format='%(objectname) %(refname:short)' refs/heads | awk "/^$$(git rev-parse HEAD)/ {print \$$2}")
-REMOTE="https://github.com/WalletConnect/node-walletconnect-bridge"
+REMOTE="https://github.com/WalletConnect/walletconnect-v2-bridge"
 REMOTE_HASH=$(shell git ls-remote $(REMOTE) $(BRANCH) | head -n1 | cut -f1)
 project=walletconnect
 redisImage='redis:5-alpine'
