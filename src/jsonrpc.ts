@@ -1,6 +1,7 @@
+import { INVALID_REQUEST, METHOD_NOT_FOUND, PARSE_ERROR } from "rpc-json-utils";
+
 import { pushNotification } from "./notification";
 import { setSub, getSub, setPub, getPub } from "./keystore";
-import { INVALID_REQUEST, METHOD_NOT_FOUND, PARSE_ERROR } from "./constants";
 import {
   JsonRpcRequest,
   Subscription,

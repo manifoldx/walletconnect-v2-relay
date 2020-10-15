@@ -1,26 +1,12 @@
-export interface JsonRpcRequest {
-  id: number;
-  jsonrpc: string;
-  method: string;
-  params: any;
-}
+import * as rpcJsonUtils from "rpc-json-utils";
 
-export interface JsonRpcResult {
-  id: number;
-  jsonrpc: string;
-  result: any;
-}
+export type JsonRpcRequest = rpcJsonUtils.JsonRpcRequest;
 
-export interface JsonRpcError {
-  id: number;
-  jsonrpc: string;
-  error: ErrorResponse;
-}
+export type JsonRpcResult = rpcJsonUtils.JsonRpcResult;
 
-export interface ErrorResponse {
-  code: number;
-  message: string;
-}
+export type JsonRpcError = rpcJsonUtils.JsonRpcError;
+
+export type ErrorResponse = rpcJsonUtils.ErrorResponse;
 
 export type JsonRpcMiddleware = (
   request: JsonRpcRequest,
