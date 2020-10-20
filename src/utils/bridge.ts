@@ -19,7 +19,7 @@ export function parseBridgePublish(
   const params = request.params as BridgePublishParams;
 
   assertType(params, "topic");
-  assertType(params, "payload");
+  assertType(params, "message");
   assertType(params, "ttl");
 
   return params;

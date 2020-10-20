@@ -19,10 +19,7 @@ export const getSub = (topic: string) =>
   );
 
 export const setPub = async (params: BridgePublishParams) => {
-  await redisClient.lpushAsync(
-    `request:${params.topic}`,
-    JSON.stringify(params.data)
-  );
+  await redisClient.lpushAsync(`request:${params.topic}`, params.message);
   // TODO: need to handle ttl
   // await redisClient.expireAsync(`request:${params.topic}`, params.ttl);
 };
@@ -32,9 +29,7 @@ export const getPub = (topic: string): string[] => {
     .lrangeAsync(`request:${topic}`, 0, -1)
     .then((data: any) => {
       if (data) {
-        const localData: string[] = data.map((item: string) =>
-          JSON.parse(item)
-        );
+        const localData: string[] = data.map((message: string) => message);
         redisClient.del(`request:${topic}`);
         return localData;
       }

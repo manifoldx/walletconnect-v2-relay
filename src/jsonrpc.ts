@@ -66,12 +66,12 @@ async function handleSubscribe(
 
   if (pending && pending.length) {
     await Promise.all(
-      pending.map((data: string) =>
+      pending.map((message: string) =>
         socketSend(
           socket,
           formatJsonRpcRequest("bridge_subscription", {
             topic,
-            data,
+            message,
           } as BridgeSubscriptionParams),
           logger
         )

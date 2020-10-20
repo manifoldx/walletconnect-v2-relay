@@ -1,7 +1,7 @@
 import { BridgePublishParams, BridgeSubscribeParams } from "../types";
 
 export function isBridgePublish(params: any): params is BridgePublishParams {
-  return "payload" in params && "topic" in params && "ttl" in params;
+  return "message" in params && "topic" in params && "ttl" in params;
 }
 
 export function isBridgeSubscribe(
