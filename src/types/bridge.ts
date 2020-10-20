@@ -13,3 +13,7 @@ export interface BridgeSubscriptionParams {
   topic: string;
   message: string;
 }
+
+export interface BridgeUnsubscribeParams {
+  topic: string;
+}

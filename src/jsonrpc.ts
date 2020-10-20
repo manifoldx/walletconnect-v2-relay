@@ -30,6 +30,7 @@ import {
   parseBridgePublish,
   parseBridgeSubscribe,
 } from "./utils";
+import { BRIDGE_JSONRPC } from "./constants";
 
 async function socketSend(
   socket: Socket,
@@ -69,7 +70,7 @@ async function handleSubscribe(
       pending.map((message: string) =>
         socketSend(
           socket,
-          formatJsonRpcRequest("bridge_subscription", {
+          formatJsonRpcRequest(BRIDGE_JSONRPC.subscription, {
             topic,
             message,
           } as BridgeSubscriptionParams),
@@ -146,21 +147,22 @@ async function jsonRpcServer(
     }
 
     switch (request.method) {
-      case "bridge_subscribe":
+      case BRIDGE_JSONRPC.subscribe:
         await handleSubscribe(
           socket,
           request as JsonRpcRequest<BridgeSubscribeParams>,
           logger
         );
         break;
-      case "bridge_publish":
+      case BRIDGE_JSONRPC.publish:
         await handlePublish(
           socket,
           request as JsonRpcRequest<BridgePublishParams>,
           logger
         );
         break;
-      case "bridge_unsubscribe":
+      case BRIDGE_JSONRPC.unsubscribe:
+        // TODO: implement handleUnsubscribe
         break;
       default:
         socketSend(
