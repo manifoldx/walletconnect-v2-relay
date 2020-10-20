@@ -33,7 +33,7 @@
     "fastify-helmet": "^5.0.3",
     "pino-pretty": "^4.0.1",
     "redis": "^2.8.0",
-    "rpc-json-utils": "^1.0.1",
+    "rpc-json-utils": "^1.1.0",
     "ws": "^7.0.0"
   },
   "devDependencies": {

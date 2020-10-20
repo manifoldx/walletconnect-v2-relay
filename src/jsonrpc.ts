@@ -1,27 +1,34 @@
-import { INVALID_REQUEST, METHOD_NOT_FOUND, PARSE_ERROR } from "rpc-json-utils";
-
-import { pushNotification } from "./notification";
-import { setSub, getSub, setPub, getPub } from "./keystore";
-import {
-  JsonRpcRequest,
-  Subscription,
-  Socket,
-  SocketData,
-  Logger,
-  JsonRpcResult,
-  JsonRpcError,
-  JsonRpcMiddleware,
-} from "./types";
 import {
   formatJsonRpcError,
   formatJsonRpcRequest,
   formatJsonRpcResult,
   getError,
+  INVALID_REQUEST,
   isJsonRpcRequest,
+  JsonRpcError,
+  JsonRpcRequest,
+  JsonRpcResult,
+  METHOD_NOT_FOUND,
+  PARSE_ERROR,
+  payloadId,
+} from "rpc-json-utils";
+
+import { pushNotification } from "./notification";
+import { setSub, getSub, setPub, getPub } from "./keystore";
+import {
+  Subscription,
+  Socket,
+  SocketData,
+  Logger,
+  JsonRpcMiddleware,
+  BridgeSubscriptionParams,
+  BridgeSubscribeParams,
+  BridgePublishParams,
+} from "./types";
+import {
   isBridgePublish,
   parseBridgePublish,
   parseBridgeSubscribe,
-  payloadId,
 } from "./utils";
 
 async function socketSend(
@@ -59,10 +66,13 @@ async function handleSubscribe(
 
   if (pending && pending.length) {
     await Promise.all(
-      pending.map((payload: string) =>
+      pending.map((data: string) =>
         socketSend(
           socket,
-          formatJsonRpcRequest("bridge_subscription", { topic, payload }),
+          formatJsonRpcRequest("bridge_subscription", {
+            topic,
+            data,
+          } as BridgeSubscriptionParams),
           logger
         )
       )
@@ -137,10 +147,20 @@ async function jsonRpcServer(
 
     switch (request.method) {
       case "bridge_subscribe":
-        await handleSubscribe(socket, request, logger);
+        await handleSubscribe(
+          socket,
+          request as JsonRpcRequest<BridgeSubscribeParams>,
+          logger
+        );
         break;
       case "bridge_publish":
-        await handlePublish(socket, request, logger);
+        await handlePublish(
+          socket,
+          request as JsonRpcRequest<BridgePublishParams>,
+          logger
+        );
+        break;
+      case "bridge_unsubscribe":
         break;
       default:
         socketSend(

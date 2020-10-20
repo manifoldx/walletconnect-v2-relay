@@ -1,7 +1,8 @@
 import axios from "axios";
+import { JsonRpcRequest } from "rpc-json-utils";
 
 import { getNotification } from "./keystore";
-import { JsonRpcRequest, Notification } from "./types";
+import { Notification } from "./types";
 import { parseBridgePublish } from "./utils";
 
 export const pushNotification = async (topic: string) => {

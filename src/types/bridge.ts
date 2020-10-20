@@ -5,11 +5,11 @@ export interface BridgeSubscribeParams {
 
 export interface BridgePublishParams {
   topic: string;
-  payload: string;
+  data: string;
   ttl: number;
 }
 
 export interface BridgeSubscriptionParams {
   topic: string;
-  payload: string;
+  data: string;
 }

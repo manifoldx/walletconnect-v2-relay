@@ -1,8 +1,5 @@
-import {
-  JsonRpcRequest,
-  BridgePublishParams,
-  BridgeSubscribeParams,
-} from "../types";
+import { JsonRpcRequest } from "rpc-json-utils";
+import { BridgePublishParams, BridgeSubscribeParams } from "../types";
 import { assertType } from "./misc";
 
 export function parseBridgeSubscribe(

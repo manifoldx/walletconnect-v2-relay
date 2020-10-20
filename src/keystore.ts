@@ -21,7 +21,7 @@ export const getSub = (topic: string) =>
 export const setPub = async (params: BridgePublishParams) => {
   await redisClient.lpushAsync(
     `request:${params.topic}`,
-    JSON.stringify(params.payload)
+    JSON.stringify(params.data)
   );
   // TODO: need to handle ttl
   // await redisClient.expireAsync(`request:${params.topic}`, params.ttl);
