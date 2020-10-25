@@ -16,6 +16,12 @@ export function initWebSocketServer(server: http.Server, logger: Logger) {
     socket.on("pong", () => {
       socket.isAlive = true;
     });
+    socket.on("error", (e: Error) => {
+      if (!e.message.includes("Invalid WebSocket frame")) {
+        throw e
+      }
+      logger.warn({type: e.name, message: e.message})
+    })
   });
 
   setInterval(
