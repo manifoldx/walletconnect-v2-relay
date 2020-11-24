@@ -3,7 +3,7 @@ import { JsonRpcRequest } from "rpc-json-utils";
 
 import { getNotification } from "./keystore";
 import { Notification } from "./types";
-import { parseBridgePublish } from "./utils";
+import { parseRelayPublish } from "./utils";
 
 export const pushNotification = async (topic: string) => {
   const notifications = await getNotification(topic);
@@ -19,8 +19,8 @@ export const notificationMiddleware = async (
   request: JsonRpcRequest,
   cb?: any
 ): Promise<void> => {
-  if (request.method === "bridge_publish") {
-    const params = parseBridgePublish(request);
+  if (request.method === "relay_publish") {
+    const params = parseRelayPublish(request);
     await pushNotification(params.topic);
   }
   cb(request);

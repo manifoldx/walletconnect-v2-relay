@@ -1,5 +1,5 @@
 import redis from "redis";
-import { Subscription, Notification, BridgePublishParams } from "./types";
+import { Subscription, Notification, RelayPublishParams } from "./types";
 import bluebird from "bluebird";
 
 import config from "./config";
@@ -18,7 +18,7 @@ export const getSub = (topic: string) =>
       subscriber.topic === topic && subscriber.socket.readyState === 1
   );
 
-export const setPub = async (params: BridgePublishParams) => {
+export const setPub = async (params: RelayPublishParams) => {
   await redisClient.lpushAsync(`request:${params.topic}`, params.message);
   // TODO: need to handle ttl
   // await redisClient.expireAsync(`request:${params.topic}`, params.ttl);

@@ -1,6 +1,6 @@
 {
-  "name": "walletconnect-v2-bridge",
-  "description": "WalletConnect v2.0 Bridge Server",
+  "name": "walletconnect-v2-relay",
+  "description": "WalletConnect v2.0 Relay Server",
   "version": "2.0.0",
   "private": true,
   "keywords": [
@@ -14,10 +14,10 @@
   "license": "LGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/walletconnect-labs/walletconnect-v2-bridge.git"
+    "url": "git+https://github.com/walletconnect-labs/walletconnect-v2-relay.git"
   },
   "bugs": {
-    "url": "https://github.com/walletconnect-labs/walletconnect-v2-bridge/issues"
+    "url": "https://github.com/walletconnect-labs/walletconnect-v2-relay/issues"
   },
   "scripts": {
     "clean": "rm -rf ./build",

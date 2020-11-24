@@ -1,9 +1,9 @@
-version: '3.7'
+version: "3.7"
 
 services:
   nginx:
     environment:
-      DOMAIN_URL: ${BRIDGE_URL}
+      DOMAIN_URL: ${RELAY_URL}
       NODE_ENV: production
       EMAIL: ${CERTBOT_EMAIL}
       NODE_DOCKER_NAME: node

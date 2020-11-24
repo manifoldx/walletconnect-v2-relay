@@ -1,6 +1,6 @@
-# WalletConnect Bridge Server ⏮️🖥️⏭️
+# WalletConnect Relay Server ⏮️🖥️⏭️
 
-Bridge Server for relaying WalletConnect connections
+Relay Server for relaying WalletConnect connections
 
 ## Development 🧪
 
@@ -35,16 +35,16 @@ docker swarm init --advertise-addr `curl -s ipecho.net/plain`
 Run the following command and fill in the prompts:
 
 ```bash
-git clone https://github.com/WalletConnect/walletconnect-v2-bridge
-cd walletconnect-v2-bridge
+git clone https://github.com/WalletConnect/walletconnect-v2-relay
+cd walletconnect-v2-relay
 make deploy
-Bridge URL domain: <your bridge domain>
+Relay URL domain: <your relay domain>
 Email for SSL certificate (default noreply@gmail.com):
 ```
 
 ### Upgrading ⏫
 
-This will upgrade your current bridge with minimal downtime.
+This will upgrade your current relay with minimal downtime.
 
 ⚠️ ATTENTION: This will run `git fetch && git merge origin/master` in your repo ⚠️
 

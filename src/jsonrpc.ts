@@ -21,16 +21,16 @@ import {
   SocketData,
   Logger,
   JsonRpcMiddleware,
-  BridgeSubscriptionParams,
-  BridgeSubscribeParams,
-  BridgePublishParams,
+  RelaySubscriptionParams,
+  RelaySubscribeParams,
+  RelayPublishParams,
 } from "./types";
 import {
-  isBridgePublish,
-  parseBridgePublish,
-  parseBridgeSubscribe,
+  isRelayPublish,
+  parseRelayPublish,
+  parseRelaySubscribe,
 } from "./utils";
-import { BRIDGE_JSONRPC } from "./constants";
+import { RELAY_JSONRPC } from "./constants";
 
 async function socketSend(
   socket: Socket,
@@ -44,7 +44,7 @@ async function socketSend(
   } else {
     if (isJsonRpcRequest(request)) {
       const params = request.params;
-      if (isBridgePublish(params)) {
+      if (isRelayPublish(params)) {
         await setPub(params);
       }
     }
@@ -56,7 +56,7 @@ async function handleSubscribe(
   request: JsonRpcRequest,
   logger: Logger
 ) {
-  const params = parseBridgeSubscribe(request);
+  const params = parseRelaySubscribe(request);
   const topic = params.topic;
 
   const subscriber = { topic, socket };
@@ -70,10 +70,10 @@ async function handleSubscribe(
       pending.map((message: string) =>
         socketSend(
           socket,
-          formatJsonRpcRequest(BRIDGE_JSONRPC.subscription, {
+          formatJsonRpcRequest(RELAY_JSONRPC.subscription, {
             topic,
             message,
-          } as BridgeSubscriptionParams),
+          } as RelaySubscriptionParams),
           logger
         )
       )
@@ -86,7 +86,7 @@ async function handlePublish(
   request: JsonRpcRequest,
   logger: Logger
 ) {
-  const params = parseBridgePublish(request);
+  const params = parseRelayPublish(request);
   const subscribers = await getSub(params.topic);
 
   // TODO: assume all payloads are non-silent for now
@@ -147,21 +147,21 @@ async function jsonRpcServer(
     }
 
     switch (request.method) {
-      case BRIDGE_JSONRPC.subscribe:
+      case RELAY_JSONRPC.subscribe:
         await handleSubscribe(
           socket,
-          request as JsonRpcRequest<BridgeSubscribeParams>,
+          request as JsonRpcRequest<RelaySubscribeParams>,
           logger
         );
         break;
-      case BRIDGE_JSONRPC.publish:
+      case RELAY_JSONRPC.publish:
         await handlePublish(
           socket,
-          request as JsonRpcRequest<BridgePublishParams>,
+          request as JsonRpcRequest<RelayPublishParams>,
           logger
         );
         break;
-      case BRIDGE_JSONRPC.unsubscribe:
+      case RELAY_JSONRPC.unsubscribe:
         // TODO: implement handleUnsubscribe
         break;
       default:

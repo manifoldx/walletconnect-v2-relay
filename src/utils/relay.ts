@@ -1,11 +1,11 @@
 import { JsonRpcRequest } from "rpc-json-utils";
-import { BridgePublishParams, BridgeSubscribeParams } from "../types";
+import { RelayPublishParams, RelaySubscribeParams } from "../types";
 import { assertType } from "./misc";
 
-export function parseBridgeSubscribe(
+export function parseRelaySubscribe(
   request: JsonRpcRequest
-): BridgeSubscribeParams {
-  const params = request.params as BridgeSubscribeParams;
+): RelaySubscribeParams {
+  const params = request.params as RelaySubscribeParams;
 
   assertType(params, "topic");
   assertType(params, "ttl");
@@ -13,10 +13,10 @@ export function parseBridgeSubscribe(
   return params;
 }
 
-export function parseBridgePublish(
+export function parseRelayPublish(
   request: JsonRpcRequest
-): BridgePublishParams {
-  const params = request.params as BridgePublishParams;
+): RelayPublishParams {
+  const params = request.params as RelayPublishParams;
 
   assertType(params, "topic");
   assertType(params, "message");

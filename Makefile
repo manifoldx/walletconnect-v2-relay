@@ -1,13 +1,13 @@
 ### Deploy configs
 BRANCH=$(shell git for-each-ref --format='%(objectname) %(refname:short)' refs/heads | awk "/^$$(git rev-parse HEAD)/ {print \$$2}")
-REMOTE="https://github.com/WalletConnect/walletconnect-v2-bridge"
+REMOTE="https://github.com/WalletConnect/walletconnect-v2-relay"
 REMOTE_HASH=$(shell git ls-remote $(REMOTE) $(BRANCH) | head -n1 | cut -f1)
 project=walletconnect
 redisImage='redis:5-alpine'
 nginxImage='walletconnect/nginx:$(BRANCH)'
 walletConnectImage='walletconnect/proxy:$(BRANCH)'
 
-BRIDGE_URL=$(shell cat config | grep BRIDGE_URL | cut -f2 -d=)
+RELAY_URL=$(shell cat config | grep RELAY_URL | cut -f2 -d=)
 CERTBOT_EMAIL=$(shell cat config | grep CERTBOT_EMAIL | cut -f2 -d=)
 
 ### Makefile internal coordination
@@ -39,8 +39,8 @@ pull:
 	@echo
 
 setup:
-	@read -p 'Bridge URL domain: ' bridge; \
-	echo "BRIDGE_URL="$$bridge > config
+	@read -p 'Relay URL domain: ' relay; \
+	echo "RELAY_URL="$$relay > config
 	@read -p 'Email for SSL certificate (default noreply@gmail.com): ' email; \
 	echo "CERTBOT_EMAIL="$$email >> config
 	@touch $(flags)/$@
@@ -86,7 +86,7 @@ dev: build
 deploy: setup build
 	WALLET_IMAGE=$(walletConnectImage) \
 	NGINX_IMAGE=$(nginxImage) \
-	BRIDGE_URL=$(BRIDGE_URL) \
+	RELAY_URL=$(RELAY_URL) \
 	CERTBOT_EMAIL=$(CERTBOT_EMAIL) \
 	docker stack deploy -c ops/docker-compose.yml \
 	-c ops/docker-compose.prod.yml $(project)
